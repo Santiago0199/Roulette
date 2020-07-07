@@ -2,15 +2,16 @@ package com.masivian.roulette.api;
 
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.masivian.roulette.api.response.SingleResponseBody;
+import com.masivian.roulette.service.dto.BetDTO;
 import com.masivian.roulette.service.dto.RouletteDTO;
 
 import io.swagger.annotations.Api;
@@ -23,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
 public interface RouletteApi {
     @ApiOperation(
             value = "create roulette",
-            response = String.class,
+            response = SingleResponseBody.class,
             notes = "create-roulette",
             produces = "application/json")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "When every thing went OK")})
@@ -32,13 +33,21 @@ public interface RouletteApi {
     
     @ApiOperation(
             value = "open roulette",
-            response = String.class,
+            response = SingleResponseBody.class,
             notes = "open-roulette",
             produces = "application/json")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "When every thing went OK")})
     @PutMapping("/{rouletteId}")
     ResponseEntity<SingleResponseBody> openRoulette(@PathVariable String rouletteId);
     
+    @ApiOperation(
+            value = "create bet",
+            response = SingleResponseBody.class,
+            notes = "create bet",
+            produces = "application/json")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "When every thing went OK")})
+    @PostMapping("/bet")
+    ResponseEntity<SingleResponseBody> bet(@RequestBody BetDTO bet);
     
     @ApiOperation(
             value = "get all roulettes",

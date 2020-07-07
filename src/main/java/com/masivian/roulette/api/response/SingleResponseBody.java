@@ -29,4 +29,12 @@ public class SingleResponseBody {
 	public void setState(OperationState state) {
 		this.state = state;
 	}
+
+	public Map<String, Object> getPayload() {
+		return payload;
+	}
+
+	public void setPayload(Map<String, Object> payload) {
+		this.payload = payload;
+	}
 }

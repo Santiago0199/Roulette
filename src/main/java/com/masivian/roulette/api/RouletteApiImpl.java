@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.masivian.roulette.api.response.SingleResponseBody;
 import com.masivian.roulette.data.model.enums.OperationState;
 import com.masivian.roulette.service.RouletteService;
+import com.masivian.roulette.service.dto.BetDTO;
 import com.masivian.roulette.service.dto.RouletteDTO;
 
 @RestController
@@ -28,6 +29,13 @@ public class RouletteApiImpl implements RouletteApi {
 	@Override
 	public ResponseEntity<SingleResponseBody> openRoulette(String rouletteId) {
 		rouletteService.openRoulette(rouletteId);
+		SingleResponseBody responseBody = new SingleResponseBody(OperationState.SUCCSESS);
+		return ResponseEntity.ok(responseBody);
+	}
+	
+	@Override
+	public ResponseEntity<SingleResponseBody> bet(BetDTO bet) {
+		rouletteService.bet(bet);
 		SingleResponseBody responseBody = new SingleResponseBody(OperationState.SUCCSESS);
 		return ResponseEntity.ok(responseBody);
 	}
