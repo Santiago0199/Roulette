@@ -34,10 +34,15 @@ public class RouletteApiImpl implements RouletteApi {
 	}
 	
 	@Override
-	public ResponseEntity<SingleResponseBody> bet(BetDTO bet) {
+	public ResponseEntity<SingleResponseBody> bet(String userId, BetDTO bet) {
 		rouletteService.bet(bet);
 		SingleResponseBody responseBody = new SingleResponseBody(OperationState.SUCCSESS);
 		return ResponseEntity.ok(responseBody);
+	}
+	
+	@Override
+	public ResponseEntity<List<BetDTO>> closeBets(String rouletteId) {
+		return ResponseEntity.ok(rouletteService.closeBets(rouletteId));
 	}
 
 	@Override

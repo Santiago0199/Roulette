@@ -13,5 +13,7 @@ public interface RouletteService {
 	
 	BetDTO bet(BetDTO betDTO) throws BussinesException;
 	
+	List<BetDTO> closeBets(String rouletteId);
+	
 	List<RouletteDTO> getAllRoulettes();
 }

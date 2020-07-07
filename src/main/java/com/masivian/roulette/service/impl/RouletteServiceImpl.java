@@ -10,6 +10,7 @@ import com.masivian.roulette.conf.ValidationConfig;
 import com.masivian.roulette.data.model.Bet;
 import com.masivian.roulette.data.model.Roulette;
 import com.masivian.roulette.data.model.enums.OperationState;
+import com.masivian.roulette.data.model.enums.ResultBet;
 import com.masivian.roulette.data.model.enums.RouletteState;
 import com.masivian.roulette.data.repository.BetRepository;
 import com.masivian.roulette.data.repository.RouletteRepository;
@@ -21,6 +22,7 @@ import com.masivian.roulette.service.dto.BetDTO;
 import com.masivian.roulette.service.dto.RouletteDTO;
 import com.masivian.roulette.service.mapper.BetMapper;
 import com.masivian.roulette.service.mapper.RouletteMapper;
+import com.masivian.roulette.util.RandomUtil;
 
 @Service
 public class RouletteServiceImpl implements RouletteService {
@@ -78,6 +80,24 @@ public class RouletteServiceImpl implements RouletteService {
 		betRepository.save(bet);
 		return betMapper.toDto(bet);
 	}
+	
+	@Override
+	public List<BetDTO> closeBets(String rouletteId) {
+		Roulette roulette = rouletteRepository.findById(rouletteId)
+				.orElseThrow(() -> new RouletteNotFoundException(OperationState.FAILED.getValue()));
+		
+		roulette.setState(RouletteState.CLOSE);
+		rouletteRepository.save(roulette);
+		
+		List<Bet> betsByRoulette = betRepository.findByRouletteId(rouletteId);
+		List<BetDTO> bets = betsByRoulette.stream().map(betMapper::toDto).collect(Collectors.toList());
+		
+		bets = bets.stream().map(bet -> {
+			bet.setResult(isWinner() ? ResultBet.WIN : ResultBet.LOSE);
+			return bet;
+		}).collect(Collectors.toList());
+		return bets;
+	}
 
 	@Override
 	public List<RouletteDTO> getAllRoulettes() {
@@ -93,5 +113,9 @@ public class RouletteServiceImpl implements RouletteService {
 	
 	private boolean validateAmountMoney(Double amount) {
 		return amount <= validationConfig.getMaxAmountBet();
+	}
+	
+	private boolean isWinner() {
+		return RandomUtil.getNumRandom() == 1;
 	}
 }

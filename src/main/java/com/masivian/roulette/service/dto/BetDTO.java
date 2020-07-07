@@ -1,5 +1,7 @@
 package com.masivian.roulette.service.dto;
 
+import com.masivian.roulette.data.model.enums.ResultBet;
+
 public class BetDTO {
 	
 	private String rouletteId;
@@ -9,6 +11,8 @@ public class BetDTO {
 	private Double amountMoney;
 	
 	private String color;
+	
+	private ResultBet result;
 
 	public String getRouletteId() {
 		return rouletteId;
@@ -40,5 +44,13 @@ public class BetDTO {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public ResultBet getResult() {
+		return result;
+	}
+
+	public void setResult(ResultBet result) {
+		this.result = result;
 	}
 }

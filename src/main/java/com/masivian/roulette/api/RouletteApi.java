@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.masivian.roulette.api.response.SingleResponseBody;
@@ -47,7 +48,16 @@ public interface RouletteApi {
             produces = "application/json")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "When every thing went OK")})
     @PostMapping("/bet")
-    ResponseEntity<SingleResponseBody> bet(@RequestBody BetDTO bet);
+    ResponseEntity<SingleResponseBody> bet(@RequestHeader String userId,@RequestBody BetDTO bet);
+    
+    @ApiOperation(
+            value = "Close bets",
+            response = SingleResponseBody.class,
+            notes = "Close bets",
+            produces = "application/json")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "When every thing went OK")})
+    @PutMapping("/close")
+    ResponseEntity<List<BetDTO>> closeBets(@PathVariable String rouletteId);
     
     @ApiOperation(
             value = "get all roulettes",
