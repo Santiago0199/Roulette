@@ -59,11 +59,11 @@ public class RouletteServiceImpl implements RouletteService {
 	
 	@Override
 	public BetDTO bet(BetDTO betDTO) throws BussinesException{
-		if(validateNumberBet(betDTO.getNumber())) {
+		if(!validateNumberBet(betDTO.getNumber())) {
 			throw new BetInvalidException(validationConfig.getMsgNumberInvalid());
 		}
 		
-		if(validateAmountMoney(betDTO.getAmountMoney())) {
+		if(!validateAmountMoney(betDTO.getAmountMoney())) {
 			throw new BetInvalidException(validationConfig.getMsgAmountInvalid());
 		}
 		
